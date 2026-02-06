@@ -11,3 +11,7 @@ def test_solution(a, b, c):
 
 def test_discriminant_less_zero():
     assert solution(1, 1, 1) is None
+
+
+def test_discriminant():
+    assert discriminant(1, -3, 2) == 1
