@@ -1,14 +1,20 @@
 from uuid import uuid4
-
+import os
 import pytest
 import requests
+from dotenv import load_dotenv
+
 
 BASE_URL = "https://cloud-api.yandex.net/v1/disk/resources"
 
 
+url = "https://dictionary.yandex.net/api/v1/dicservice.json/lookup"
+
+
 @pytest.fixture
 def token():
-    token = "ваш токен от ЯД"
+    load_dotenv()
+    token = os.getenv("token_yandex")
     if not token:
         pytest.fail("YANDEX_TOKEN не установлен в переменных окружения")
     return token
