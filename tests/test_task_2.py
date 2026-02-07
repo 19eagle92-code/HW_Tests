@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 BASE_URL = "https://cloud-api.yandex.net/v1/disk/resources"
 
 
-url = "https://dictionary.yandex.net/api/v1/dicservice.json/lookup"
+# @pytest.fixture
+# def session(headers):
+#     sess = requests.Session()
+#     sess.headers.update(headers)
+#     return sess
 
 
 @pytest.fixture
@@ -53,6 +57,13 @@ def test_create_folder_success(headers, temp_folder):
     )
     assert response.status_code in [201, 409]
 
+    check_response = requests.get(
+        BASE_URL, headers=headers, params={"path": f"disk:/{temp_folder}"}
+    )
+
+    assert check_response.status_code == 200
+    assert check_response.json()["name"] == temp_folder
+
 
 def test_create_existing_folder(headers, create_and_cleanup_folder):
     folder = create_and_cleanup_folder
@@ -65,3 +76,19 @@ def test_create_existing_folder(headers, create_and_cleanup_folder):
 def test_create_folder_invalid_path(headers):
     response = requests.put(BASE_URL, headers=headers, params={"path": "disk://///"})
     assert response.status_code == 404
+
+
+def test_create_folder_no_token(temp_folder):
+    response = requests.put(BASE_URL, params={"path": f"disk:/{temp_folder}"})
+
+    assert response.status_code == 401
+
+
+def test_create_folder_with_wrong_token(temp_folder):
+    headers = {"Authorization": "OAuth wrong_{token}"}
+
+    response = requests.put(
+        BASE_URL, headers=headers, params={"path": f"disk:/{temp_folder}"}
+    )
+
+    assert response.status_code == 401
