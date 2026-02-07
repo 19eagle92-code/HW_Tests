@@ -79,24 +79,30 @@ mentors = [
     ],
 ]
 
-# Добавьте в список всех преподавателей со всех курсов
-all_list = []
-for m in mentors:
-    all_list.extend(m)
-# Допишите здесь ваш код, который заполнит all_list. Можете как складывать списки, так и использовать метод extend
 
-# Сделайте список all_names_list, состоящий только из имён, и заполните его
-all_names_list = []
-for mentor in all_list:
-    name = name = mentor.split()[0]
-    all_names_list.append(name)
+def unique_names_func(courses, mentors):
+    # Добавьте в список всех преподавателей со всех курсов
+    all_list = []
+    for m in mentors:
+        all_list.extend(m)
+    # Допишите здесь ваш код, который заполнит all_list. Можете как складывать списки, так и использовать метод extend
 
-# Сделайте так, чтобы остались только уникальные имена (без повторений) - допишите ниже ваш код
-unique_names = set(all_names_list)
+    # Сделайте список all_names_list, состоящий только из имён, и заполните его
+    all_names_list = []
+    for mentor in all_list:
+        name = mentor.split()[0]
+        all_names_list.append(name)
 
-# Теперь необходимо отсортировать имена в алфавитном порядке. Подсказка: используйте sorted() для списка
-# Допишите код ниже
-all_names_sorted = sorted(unique_names)
-# Допишите конструкцию вывода результата. Используйте string.join()
-# Результат будет в all_names_sorted
-print(f'Уникальные имена преподавателей: {", ".join(all_names_sorted)}')
+    # Сделайте так, чтобы остались только уникальные имена (без повторений) - допишите ниже ваш код
+    unique_names = set(all_names_list)
+
+    # Теперь необходимо отсортировать имена в алфавитном порядке. Подсказка: используйте sorted() для списка
+    # Допишите код ниже
+    all_names_sorted = sorted(unique_names)
+    # Допишите конструкцию вывода результата. Используйте string.join()
+    # Результат будет в all_names_sorted
+    result = ", ".join(all_names_sorted)
+    return result
+
+
+print(f"Уникальные имена преподавателей: {unique_names_func(courses, mentors)}")
